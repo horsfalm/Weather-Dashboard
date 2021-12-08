@@ -81,9 +81,12 @@ header {
 #operative {
     font-weight: bolder;
     font-size: larger;
+    margin-top: 0px;
 }
 
-
+#forecast-conditions {
+    font-weight: bolder;
+}
 
 #forecast-cards {
     display: flex;
