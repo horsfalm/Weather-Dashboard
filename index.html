@@ -17,15 +17,18 @@
 
             <div class="column-left">
     
-                <div id="search">
-                    <p>Search for a City:<p>
-                    <form>
-                    <input type="text" id="city" placeholder="Toronto"><br>
-                    <input type="submit" value="Search" id="search-button">
-                    </form>
-                </div>
-                <div id="recent-searches">
-                    <div>Sydney</div>
+                <div>
+                    <div id="search-top">
+                        <p>Search for a City:<p>
+                        <form id="current-search">
+                            <label for="city"></label>
+                            <input name="city" type="text" id="city" placeholder="Toronto" autofocus="true"><br>
+                            <button type="submit" id="search-button">Search</button>
+                        </form>
+                    </div>
+                    <div id="search-bottom">
+                        <p>Sydney</p>
+                    </div>
                 </div>
 
             </div>
@@ -33,22 +36,21 @@
             <div class="column-right">
         
                     <div id="current-conditions">
-                        <p>Atlanta (3/30/2021)<p>
+                        <p id="operative"><p>
+                        <p id="temp">Temp:</p>
+                        <p id="wind">Wind:</p>
+                        <p id="humidity">Humidity:</p>
+                        <p id="uv">UV Index:</p>
                     </div>
-                    <div id="forecast"><p>5-Day Forecast:</p>
-                        <div id="forecast-cards">
-                            <div class="day" id="day1">Day 1</div>
-                            <div class="day" class ="middle-day" id="day2">Day 2</div>
-                            <div class="day" class ="middle-day" id="day3">Day 3</div>
-                            <div class="day" class ="middle-day" id="day4">Day 4</div>
-                            <div class="day" id="day5">Day 5</div>
-                        </div>
+                    <div id="forecast-conditions"><p>5-Day Forecast:</p>
+                        <div id="forecast-cards"></div>
                     </div>
 
             </div>
 
         </section>
-
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="./assets/js/script.js"></script>
 
     </body>

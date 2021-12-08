@@ -26,7 +26,7 @@ header {
     height: 300px;
 }
 
-#search {
+#search-top {
     padding: 0 10px 10px 0;
     border-bottom: rgb(192, 189, 189);
     border-bottom-style: solid;
@@ -50,34 +50,48 @@ header {
     padding: 3px;
 }
 
-#search h2 {
-    
-}
-
-#search p {
+#search-top p {
     font-weight: bolder;
     font-size: larger;
 }
 
-#recent-searches div {
-    background-color: rgb(192, 189, 189);
-    color: black;
+#search-bottom {
+    padding: 0 10px 10px 0;
+}
+
+#search-bottom p {
     width: 100%;
-    text-align: center;
-    font-size: small;
+    margin-top: 5px;
+    color: white;
+    background-color: rgb(54, 133, 236);
+    border-color: rgb(54, 133, 236);
     border-radius: 5%;
-    margin-top: 10px;
+    font-size: small;
+    padding: 3px;
+    text-align: center;
 }
 
 #current-conditions {
     border-style: solid;
     border-width: 2px;
-    height: 150px;
+    height: 200px;
+    padding: 5px;
 }
+
+#operative {
+    font-weight: bolder;
+    font-size: larger;
+}
+
+
 
 #forecast-cards {
     display: flex;
     justify-content: space-between;
+}
+
+#forecast-cards div {
+    
 }
 
 .day {
@@ -87,16 +101,4 @@ header {
     margin: 0px 10px;
     padding: 3px;
     color: white;
-}
-
-.middle-day {
-    
-}
-
-#day1 {
-    margin-left: 0px;
-}
-
-#day5 {
-    margin-right: 0px;
 }
