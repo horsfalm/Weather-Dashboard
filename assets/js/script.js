@@ -33,6 +33,7 @@ var formSubmitHandler = function(event) {
             if (searchArr.length > 10) {
                 searchArr.shift();
             }
+        saveSearches();
         $('#search-bottom').empty();
         for (i=0; i < searchArr.length; i++) {
             var recentCity = document.createElement('BUTTON');
@@ -42,7 +43,7 @@ var formSubmitHandler = function(event) {
 
         getCity(city);
         currentCityEl.value = "";
-        console.log(searchArr);
+
     } else {
         alert("Please enter a city name");
         };
@@ -50,22 +51,12 @@ var formSubmitHandler = function(event) {
 };
 
 var recentSearchHandler = function(event) {
-    event.preventDefault();
+    //event.preventDefault();
     city = event.target.value;
     getCity(city);
-    console.log(searchArr);
+
 }
-    
- //   $('#search-bottom').empty();
- //       for (i=0; i < searchArr.length; i++) {
- //           var recentCity = document.createElement('BUTTON');
- //           $(recentCity).addClass("weather-button").append(searchArr[i]);
- //           $('#search-bottom').append(recentCity);  
- //           }
-    
- //           getCity(city);
- //       };
-        
+
 
 var displayCurrent = function(city) {
     
@@ -154,8 +145,25 @@ var clearForecast = function() {
     $( "#forecast-cards" ).empty();
 };
 
+var saveSearches = function() {
+    localStorage.setItem("searches",JSON.stringify(searchArr));
+}
+
+var loadSearches = function() {
+    var savedSearches = localStorage.getItem("searches");
+    console.log(savedSearches);
+    //if (!savedSearches) {
+    //    return false;
+    //}
+    savedSearches = JSON.parse(savedSearches);
+
+//    for (var i = 0; i < savedSearches.length; i++) {
+//        recentSearchHandler(savedSearches[i]);
+//    }
+}
+
 recentSearchesEl.addEventListener("click", recentSearchHandler);
 inputFormEl.addEventListener("submit", formSubmitHandler);
 
+loadSearches();
 //UV Index = 
-//localStorage.setItem(city);
