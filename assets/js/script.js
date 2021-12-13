@@ -7,10 +7,10 @@ var searchArr = [];
 
 var getCity = function(city) {
     // api for current conditions
-    var queryCurrent = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    var queryCurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
     // api for forecast conditions
-    var queryForecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
+    var queryForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
     
     fetch(queryCurrent).then(function(queryCurrent) {
         queryCurrent.json().then(function(queryCurrent) {
@@ -79,7 +79,7 @@ var displayCurrent = function(city) {
     
     // current weather icon
     var day0Icon = city.weather[0].icon;
-    document.getElementById('icon-day0').src="http://openweathermap.org/img/w/"+day0Icon+".png";
+    document.getElementById('icon-day0').src="https://openweathermap.org/img/w/"+day0Icon+".png";
 
 
     // current day temp
