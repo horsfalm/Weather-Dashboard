@@ -78,14 +78,23 @@ button {
     padding: 5px;
 }
 
+#headline {
+    margin-bottom: 10px;
+    height: 50px;
+}
+
 .conditions {
     display: inline;
+}
+
+.metric {
+    margin-top: 5px;
+    line-height: 1.5;
 }
 
 #operative {
     font-weight: bolder;
     font-size: larger;
-    margin-top: 0px;
 }
 
 #forecast-conditions {
@@ -95,10 +104,6 @@ button {
 #forecast-cards {
     display: flex;
     justify-content: space-between;
-}
-
-#forecast-cards div {
-    
 }
 
 .day {

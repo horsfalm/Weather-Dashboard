@@ -6,7 +6,10 @@ var cityIdCounter = 0;
 var searchArr = [];
 
 var getCity = function(city) {
+    // api for current conditions
     var queryCurrent = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+
+    // api for forecast conditions
     var queryForecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
     
     fetch(queryCurrent).then(function(queryCurrent) {
@@ -26,43 +29,47 @@ var formSubmitHandler = function(event) {
     event.preventDefault();
     var city = currentCityEl.value.trim();
     if (searchArr.includes(currentCityEl.value)) {
-        return alert("City is already displayed. Please choose another city.");
+        return alert("City is a recent search. Please enter another city or click the desired recent search button."); // no duplicate entries
     } else {
         if (city) {
         searchArr.push(currentCityEl.value);
+            // max recent search list
             if (searchArr.length > 10) {
                 searchArr.shift();
             }
+        // local storage
         saveSearches();
+        // replicate recent search list when adding to it
         $('#search-bottom').empty();
         for (i=0; i < searchArr.length; i++) {
             var recentCity = document.createElement('BUTTON');
             $(recentCity).addClass("weather-button").val(searchArr[i]).append(searchArr[i]);
             $('#search-bottom').append(recentCity);  
         }
-
+        
         getCity(city);
         currentCityEl.value = "";
-
+    
+    // warning if null entry
     } else {
         alert("Please enter a city name");
         };
     };
 };
 
+// choose from recent search list
 var recentSearchHandler = function(event) {
-    //event.preventDefault();
     city = event.target.value;
     getCity(city);
-
 }
 
 
 var displayCurrent = function(city) {
     
-    clearCurrent(); //remove prior search from display
+    //remove prior search from display
+    clearCurrent(); 
     
-    // city + current date
+    // show current conditions
     var day0 = document.createElement("p");
     $(day0).addClass("conditions");
     day0.id = "day-0";
@@ -98,18 +105,38 @@ var displayCurrent = function(city) {
     var day0HumidityVal = city.main.humidity;
     $(day0Humidity).append(" " + day0HumidityVal + " %");
     $( "#humidity" ).append(day0Humidity);
+
+    // current day UV index - requires separate api
+    var day0UV = document.createElement("p");
+    $(day0UV).addClass("conditions");
+    day0UV.id = "day-0-uv";
+    var lat = (city.coord.lat);
+    var lon = (city.coord.lon);
+    var queryCurrentUV = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
+    fetch(queryCurrentUV).then(function(queryCurrentUV) {
+        queryCurrentUV.json().then(function(queryCurrentUV) {  
+            var day0UVVal = (queryCurrentUV.current.uvi);
+            $(day0UV).append(" " + day0UVVal);
+            $( "#uv" ).append(day0UV);
+        });
+    });
 }
 
 var displayForecast = function(city) {
-    clearForecast(); //remove prior search from display
-
+    
+    // remove prior search from display
+    clearForecast(); 
+    
+    // constant interval regardless of day app is used
     const forecastDays = [
-        {day: city.list[7].dt, icon: city.list[7].weather[0].icon, temp: city.list[7].main.temp, wind: city.list[7].wind.speed},
-        {day: city.list[15].dt, icon: city.list[15].weather[0].icon, temp: city.list[15].main.temp, wind: city.list[15].wind.speed},
-        {day: city.list[23].dt, icon: city.list[23].weather[0].icon, temp: city.list[23].main.temp, wind: city.list[23].wind.speed},
-        {day: city.list[31].dt, icon: city.list[31].weather[0].icon, temp: city.list[31].main.temp, wind: city.list[31].wind.speed},
-        {day: city.list[39].dt, icon: city.list[39].weather[0].icon, temp: city.list[39].main.temp, wind: city.list[39].wind.speed}
+        {day: city.list[7].dt, icon: city.list[7].weather[0].icon, temp: city.list[7].main.temp, wind: city.list[7].wind.speed, humidity: city.list[7].main.humidity},
+        {day: city.list[15].dt, icon: city.list[15].weather[0].icon, temp: city.list[15].main.temp, wind: city.list[15].wind.speed, humidity: city.list[15].main.humidity},
+        {day: city.list[23].dt, icon: city.list[23].weather[0].icon, temp: city.list[23].main.temp, wind: city.list[23].wind.speed, humidity: city.list[23].main.humidity},
+        {day: city.list[31].dt, icon: city.list[31].weather[0].icon, temp: city.list[31].main.temp, wind: city.list[31].wind.speed, humidity: city.list[31].main.humidity},
+        {day: city.list[39].dt, icon: city.list[39].weather[0].icon, temp: city.list[39].main.temp, wind: city.list[39].wind.speed, humidity: city.list[39].main.humidity}
     ]
+
+        // logic for forecast conditions
         for (i = 0; i < forecastDays.length; i++) {
             var forecastDay = new Date(forecastDays[i].day*1000).toLocaleString([], {day: '2-digit', month: '2-digit', year: '2-digit'});
             forecastDay.class = "forecast";
@@ -123,7 +150,7 @@ var displayForecast = function(city) {
             var forecastWind = "<br><br>" + "Wind: " + (forecastDays[i].wind).toFixed(2) + " MPH";
             forecastWind.class = "forecast";
 
-            var forecastHumidity = "<br><br>" + "Humidity: ";
+            var forecastHumidity = "<br><br>" + "Humidity: " + (forecastDays[i].humidity + " %");
             forecastHumidity.class = "forecast";
             
             jQuery("<div>",{
@@ -134,13 +161,16 @@ var displayForecast = function(city) {
         }        
     }
 
+// clear current conditions when new city chosen
 var clearCurrent = function() {
     $( "#operative" ).empty();
     $( "#temp" ).empty();
     $( "#wind" ).empty();
     $( "#humidity" ).empty();
+    $( "#uv" ).empty();
 };
 
+// clear forecasted conditions when new city chosen
 var clearForecast = function() {
     $( "#forecast-cards" ).empty();
 };
@@ -149,21 +179,27 @@ var saveSearches = function() {
     localStorage.setItem("searches",JSON.stringify(searchArr));
 }
 
+// recover local storage
 var loadSearches = function() {
     var savedSearches = localStorage.getItem("searches");
     console.log(savedSearches);
-    //if (!savedSearches) {
-    //    return false;
-    //}
+    if (!savedSearches) {
+        return false;
+    }
     savedSearches = JSON.parse(savedSearches);
 
-//    for (var i = 0; i < savedSearches.length; i++) {
-//        recentSearchHandler(savedSearches[i]);
-//    }
+    for (var i = 0; i < savedSearches.length; i++) {
+        var recentSearch = document.createElement("BUTTON");
+        $(recentSearch).addClass("weather-button").val(savedSearches[i]).append(savedSearches[i]);
+        $('#search-bottom').append(recentSearch);
+        searchArr.push(savedSearches[i]);
+        getCity(savedSearches[i]);
+    }
 }
 
+// event listeners for recent searches
 recentSearchesEl.addEventListener("click", recentSearchHandler);
+// event listener for new search
 inputFormEl.addEventListener("submit", formSubmitHandler);
 
-loadSearches();
-//UV Index = 
+loadSearches(); 

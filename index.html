@@ -22,7 +22,7 @@
                         <p>Search for a City:<p>
                         <form id="current-search">
                             <label for="city"></label>
-                            <input name="city" type="text" id="city" placeholder="Toronto" autofocus="true" ><br>
+                            <input name="city" type="text" id="city" placeholder="Enter City" autofocus="true" ><br>
                             <button type="submit" id="search-button">Search</button>
                         </form>
                         <div></div>
@@ -36,13 +36,13 @@
             <div class="column-right">
         
                     <div id="current-conditions">
-                        <div><p id="operative" class="conditions"></p>
+                        <div id="headline"><p id="operative" class="conditions"></p>
                         <p class="conditions"><img src="" id="icon-day0"></p>
                         </div>
-                        <p id="temp">Temp:</p>
-                        <p id="wind">Wind:</p>
-                        <p id="humidity">Humidity:</p>
-                        <p id="uv">UV Index:</p>
+                        <div class="metric">Temp:<div id="temp" class="conditions"></div></div>
+                        <div class="metric">Wind:<div id="wind" class="conditions"></div></div>
+                        <div class="metric">Humidity:<div id="humidity" class="conditions"></div></div>
+                        <div class="metric">UV Index:<div id="uv" class="conditions"></div></div>
                     </div>
                     <div id="forecast-conditions"><p>5-Day Forecast:</p>
                         <div id="forecast-cards"></div>
